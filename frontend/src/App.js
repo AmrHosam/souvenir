@@ -1,7 +1,12 @@
+import { Container } from "react-bootstrap";
+import ShopScreen from "./Screens/ShopScreen";
+
 function App() {
   return (
     <>
-      <h1>Welcome to Souvenir</h1>
+        <Container>
+          <ShopScreen/>
+        </Container>
     </>
   );
 }
