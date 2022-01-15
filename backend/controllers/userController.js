@@ -14,6 +14,7 @@ export const authenticateUser = AsyncHandler (async (req,res) => {
              email : user.email,
              tel : user.tel,
              address : user.address,
+             cart : user.cart,
              token : generateToken()
          })
     }
