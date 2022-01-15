@@ -37,15 +37,21 @@ const MyNav = () => {
         <Navbar.Toggle className="me-auto" aria-controls="souvenir-navbar" />
         <Navbar.Collapse id="souvenir-navbar">
           <Nav className="me-auto">
-            <Nav.Link href="#home">
-              <u>Home</u>
-            </Nav.Link>
-            <Nav.Link href="#about">
-              <u>About</u>
-            </Nav.Link>
-            <Nav.Link href="#shop">
-              <u>Shop</u>
-            </Nav.Link>
+            <LinkContainer to="/">
+              <Nav.Link>
+                <u>Home</u>
+              </Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/about">
+              <Nav.Link href="#about">
+                <u>About</u>
+              </Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/shop">
+              <Nav.Link href="#shop">
+                <u>Shop</u>
+              </Nav.Link>
+            </LinkContainer>
             <Nav.Link href="#contact">
               <u>Contact Us</u>
             </Nav.Link>
