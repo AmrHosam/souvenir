@@ -28,7 +28,16 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default:false
-    }
+    },
+    cart : [
+        {
+            product: {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true,
+                ref: 'Product',
+              },
+        }
+    ]
      
 },{timestamps:true})
 const User = mongoose.model('User',userSchema)

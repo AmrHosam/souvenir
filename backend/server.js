@@ -13,7 +13,7 @@ app.listen(port,console.log(`Server running in ${process.env.NODE_ENV} on ${port
 //Connect to database
 connectDB()
 
-app.use('/shop', productRouter)
+
 
 app.get('/',(req,res) => {
     res.send(`app is running on ${port}`)
@@ -24,3 +24,4 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/users',(userRouter))
+app.use('/shop', productRouter)
