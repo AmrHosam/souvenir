@@ -3,6 +3,7 @@ import ShopScreen from "./Screens/ShopScreen";
 import MyNav from "./Components/MyNav";
 import {BrowserRouter as Router,Route,Routes}  from 'react-router-dom'
 import LoginScreen from "./Screens/LoginScreen";
+import ProductScreen from "./Screens/ProductScreen";
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
 
           <Route path='/login' element={<LoginScreen />} exact></Route>
           <Route path='/' element={<ShopScreen/>} exact></Route>
-
+          <Route path='/shop' element={<ShopScreen/>} exact></Route>
+          <Route path='/shop/:id' element={<ProductScreen/>}></Route>
         
         </Routes>
       </Container>

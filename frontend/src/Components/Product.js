@@ -5,14 +5,14 @@ import { Card } from 'react-bootstrap'
 const Product = ({ product }) => {
     return (
         <Card className="my-3 p-3 rounded">
-            <Link to={`/product/${product._id}`}>
+            <Link to={`/shop/${product._id}`}>
                 <div className="image-frame">
                     <Card.Img variant="top" src={product.image} className="card-image"/>
                 </div>
             </Link>
             <Card.Body>
                 <Card.Title as={"div"}>
-                    <Link to={`/product/${product._id}`} className="product-title">
+                    <Link to={`/shop/${product._id}`} className="product-title">
                         <div>
                             <strong>{product.name}</strong>
                         </div>
