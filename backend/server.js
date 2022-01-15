@@ -1,7 +1,8 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
-import productRoutes from './routes/productRoutes.js'
+import productRouter from './routes/productRoutes.js'
+import userRouter from './routes/userRoutes.js'
 
 dotenv.config()
 
@@ -12,7 +13,7 @@ app.listen(port,console.log(`Server running in ${process.env.NODE_ENV} on ${port
 //Connect to database
 connectDB()
 
-app.use('/shop', productRoutes)
+app.use('/shop', productRouter)
 
 app.get('/',(req,res) => {
     res.send(`app is running on ${port}`)
@@ -21,3 +22,5 @@ app.get('/',(req,res) => {
 //Body parser
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
+
+app.use('/api/users',(userRouter))
