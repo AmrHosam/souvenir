@@ -19,10 +19,11 @@ const userSchema = mongoose.Schema({
         required: true,
     },
     address : {
+        details:{type:String},
+        governorate:{type: String},
         city:{type: String},
-        district:{type: String},
         street:{type: String},
-        block:{type: String}
+        building:{type: String}
         },
     isAdmin : {
         type: Boolean,
