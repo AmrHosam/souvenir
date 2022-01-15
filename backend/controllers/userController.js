@@ -23,3 +23,43 @@ export const authenticateUser = AsyncHandler (async (req,res) => {
     res.send({message:'Invalid Email or Password'});
     }
 })
+
+export const registerUser = AsyncHandler (async (req,res) => {
+    
+    const {name,email,password,tel,address,cart} = req.body
+    const user = await User.findOne({email})
+    if (user){
+         res.status(400)
+         throw new Error('This Email is used')
+     }
+     else
+     { 
+        try {
+    const CreateUser = await new User({
+            name,
+            email,
+            password:  bcrypt.hashSync(password, 10),
+            tel,
+            address,
+            cart,
+            isAdmin: false,
+          })
+        const createdUser = await CreateUser.save()
+        res.json({
+            _id: createdUser._id,
+            name: createdUser.name,
+            email: createdUser.email,
+            tel:createdUser.tel,
+            address:createdUser.address,
+            cart:createdUser.cart,
+            isAdmin: createdUser.isAdmin,
+            token: generateToken(createdUser._id),
+        })
+    
+    } catch (error) {
+        res.status(401)
+    throw new Error(error)
+    }
+            
+    }}
+)
