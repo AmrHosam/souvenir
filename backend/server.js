@@ -23,5 +23,5 @@ app.get('/',(req,res) => {
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/users',(userRouter))
+app.use('/users',(userRouter))
 app.use('/shop', productRouter)
