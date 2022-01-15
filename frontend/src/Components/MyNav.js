@@ -1,10 +1,16 @@
 import React from 'react'
 import { useState } from 'react';
+import { useSelector ,useDispatch } from 'react-redux';
 import './MyNav.css'
+import { logout } from '../actions/userActions';
+import { LinkContainer } from "react-router-bootstrap";
 import {Fade, Container , Navbar , Col , Row , Nav , Form , Collapse,Button} from 'react-bootstrap'
 const MyNav = () => {
     const [open, setOpen] = useState(false);
     const [display,setDisplay] = useState({display:'none'})
+    const userLogin = useSelector((state) => state.userLogin);
+    const { user } = userLogin;
+    const dispatch = useDispatch()
     const clickSearch = () => {
         setOpen(!open)
         if (display.display === 'none')
@@ -12,6 +18,11 @@ const MyNav = () => {
         else
         setDisplay({display:'none'})
     }
+
+    const submitLogout = (e) => {
+        dispatch(logout());
+       }
+
     return (
 
 <Navbar collapseOnSelect expand="md" className='souvenirNav' >
@@ -27,7 +38,7 @@ const MyNav = () => {
         
             <Nav >    
                 <Nav.Link href="#features"><i className="fas fa-shopping-cart"></i></Nav.Link>
-                <Nav.Link href="#features"><i className="fas fa-heart"></i></Nav.Link>
+                
                 <Nav.Link className='toggleSearchIcon' onClick={clickSearch} aria-controls='searchBar' aria-expanded={open}><i className="fas fa-search"></i></Nav.Link> 
                 
                 <Fade in={open} dimension='width' className='no'>
@@ -48,7 +59,12 @@ const MyNav = () => {
                             </Row>
                     </Form>
                 </Fade>
-
+                <LinkContainer to='/login'>
+                
+                <Nav.Link >
+                {user?<i onClick={submitLogout} class="fas fa-sign-out-alt"></i>:<i class="fas fa-sign-in-alt"></i>}
+                </Nav.Link>
+                    </LinkContainer>
             </Nav>
         </Navbar.Collapse>
     </Container>

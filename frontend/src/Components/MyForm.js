@@ -1,8 +1,8 @@
 import React, {  useState } from "react";
 import { Container,  Form, Button } from "react-bootstrap";
 import _ from "lodash";
-import Message from "../components/Message";
-import "../components/header.css";
+import Message from "../Components/Message";
+import "../Components/MyForm.css";
 
 const MyForm = ({Title,user,Name , Submit }) => {
     const [name, setName] = useState("");
