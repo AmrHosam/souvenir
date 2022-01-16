@@ -27,7 +27,7 @@ export const registerUser = AsyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   if (user) {
     res.status(400);
-    throw new Error("This Email is used");
+    res.send({message: "This Email is used"});
   } else {
     try {
       const CreateUser = await new User({
@@ -52,7 +52,7 @@ export const registerUser = AsyncHandler(async (req, res) => {
       });
     } catch (error) {
       res.status(401);
-      throw new Error(error);
+      res.send({message:error});
     }
   }
 });

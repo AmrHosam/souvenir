@@ -34,6 +34,7 @@ const RegisterScreen = () => {
     if (!_.isEqual(password, confirmPassword)) {
       setError("Passwords are not matching");
     } else {
+      setError("");
       dispatch(
         register({
           name: name,
