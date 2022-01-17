@@ -3,19 +3,22 @@ import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import _ from "lodash";
 import Message from "../Components/Message";
 import "../Components/MyForm.css";
+import { useSelector } from "react-redux";
 
 const MyForm = ({ Title, user, Name, Submit }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errorfront, setError] = useState("");
   const [governorate,setGovernorate]= useState('')  
   const [district,setDistrict]= useState('')  
   const [street,setStreet]= useState('')  
   const [building,setBuilding]= useState('')  
   const [addDetails,setAddDetails]= useState('')  
   const [tel,setTel]= useState('')  
+  const userRegister = useSelector(state => state.userRegister)
+  const {error} = userRegister
   const SubmitUpdate = (e) => {
     e.preventDefault();
     Submit(name, email, tel,password, confirmPassword,governorate,district,street,building,addDetails, setError);
@@ -26,11 +29,11 @@ const MyForm = ({ Title, user, Name, Submit }) => {
       <Form className="my-3" onSubmit={SubmitUpdate}>
         <h3 className="my-3">{Title}</h3>
         {/* {loading && <Loading className='mx-5 my-4' />} */}
-        {error && (
+        {(error || errorfront) && (
           <Message className="mx-5 my-4" variant="danger">
-            {error}
+            {errorfront ? errorfront : error }
           </Message>
-        )}
+        ) }
         <Form.Group className="my-3" controlId="formBasicText">
           <Form.Label>Name</Form.Label>
           <Form.Control
@@ -98,6 +101,7 @@ const MyForm = ({ Title, user, Name, Submit }) => {
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>Governorate (Muhafaza)</Form.Label>
             <Form.Control 
+            required={true}
             className="sharp loginTextArea"
             placeholder="eg.Cairo"
             value = {governorate}
@@ -118,7 +122,8 @@ const MyForm = ({ Title, user, Name, Submit }) => {
 
           <Form.Group as={Col} controlId="formGridDistrict">
             <Form.Label>District</Form.Label>
-            <Form.Control 
+            <Form.Control
+            required={true} 
             className="sharp loginTextArea"
             placeholder='eg.Nasr City'
             value = {district}
@@ -129,6 +134,7 @@ const MyForm = ({ Title, user, Name, Submit }) => {
           <Form.Group as={Col} controlId="formGridStreet">
             <Form.Label>Street</Form.Label>
             <Form.Control 
+            required={true}
             className="sharp loginTextArea"
             placeholder="eg.Abbas El Akkad St."
             value = {street}
@@ -140,6 +146,7 @@ const MyForm = ({ Title, user, Name, Submit }) => {
           <Form.Group as={Col} controlId="formGridBuilding">
             <Form.Label>Building No</Form.Label>
             <Form.Control 
+            required={true}
             className="sharp loginTextArea"
             placeholder='eg.31' 
             value = {building}
