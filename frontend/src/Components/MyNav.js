@@ -58,9 +58,11 @@ const MyNav = () => {
           </Nav>
 
           <Nav>
-            <Nav.Link href="#features">
-              <i className="fas fa-shopping-cart"></i>
-            </Nav.Link>
+            <LinkContainer to="/cart">
+              <Nav.Link>
+                <i className="fas fa-shopping-cart"></i>
+              </Nav.Link>
+            </LinkContainer>
 
             <Nav.Link
               className="toggleSearchIcon"
