@@ -15,6 +15,7 @@ const ShippingScreen = ({ history }) => {
     const { ShippingScreen } = cart
     const [address, setAddress] = useState(saveShippingAddress.address);
     const [city, setCity] = useState(saveShippingAddress.city);
+    const [phone, setPhone] = useState(saveShippingAddress.city);
     const Navigate = useNavigate();
     const userLogin = useSelector((state) => state.userLogin);
     const { loading, user, error } = userLogin;
@@ -26,6 +27,11 @@ const ShippingScreen = ({ history }) => {
     const cityhandleChange = (e) => {
         setCity(e.target.value);
     };
+
+    const phonehandleChange = (e) => {
+        setPhone(e.target.value);
+    };
+
     const submitHandler = (e) => {
         e.preventDefault();
 
@@ -73,22 +79,10 @@ const ShippingScreen = ({ history }) => {
                 <Form.Label>phone</Form.Label>
                 <Form.Control
                     type="text"
-                    placeholder="City"
-                    value={city}
+                    placeholder="phone"
+                    value={phone}
                     className="sharp loginTextArea"
-                    onChange={cityhandleChange}
-                    required={true}
-                />
-            </Form.Group>
-            <Form.Group className="mb-3 mx-5" controlId="formBasicPassword">
-                <Form.Label>countery</Form.Label>
-
-                <Form.Control
-                    type="text"
-                    placeholder="City"
-                    value={city}
-                    className="sharp loginTextArea"
-                    onChange={cityhandleChange}
+                    onChange={phonehandleChange}
                     required={true}
                 />
             </Form.Group>
