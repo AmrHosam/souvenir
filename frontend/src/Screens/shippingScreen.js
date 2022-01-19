@@ -5,10 +5,11 @@ import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/userActions";
 import Message from "../Components/Message";
+import CheckoutSteps from "../Components/CheckoutSteps";
 import "../Components/MyForm.css";
 import _ from "lodash";
 import { shippingAddress } from "../actions/cartActions";
-import { saveShippingAddress } from '../actions/cartActions'
+import { saveShippingAddress } from '../actions/cartActions';
 
 const ShippingScreen = ({ history }) => {
     const cart = useSelector(state => state.cart)
@@ -45,7 +46,11 @@ const ShippingScreen = ({ history }) => {
     //     } else Navigate("/login");
     // }, [user]);
     return (
+
+
         <Form className="m-5" onSubmit={submitHandler}>
+            <CheckoutSteps step1 step2 />
+
             <h1 className="mx-5 my-4">shipping Address</h1>
             {error && (
                 <Message className="mx-5 my-4" variant="danger">
@@ -90,7 +95,8 @@ const ShippingScreen = ({ history }) => {
                 continue
             </Button>
         </Form>
-    );
+    )
+
 }
 
 export default ShippingScreen
