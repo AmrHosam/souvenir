@@ -37,7 +37,7 @@ const ShippingScreen = ({ history }) => {
         e.preventDefault();
 
         dispatch(saveShippingAddress({ address, city, phone }));
-        history.push('./payment')
+        Navigate('/payment')
     };
     // useEffect(() => {
     //     if (_.has(user, "_id")) {
