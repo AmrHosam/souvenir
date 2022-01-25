@@ -10,6 +10,7 @@ import {  useNavigate } from 'react-router-dom'
  } from '../actions/productActions'
 import { PRODUCT_CREATE_RESET, PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import { PRODUCT_DETAILS_RESET } from '../constants/userConstants'
+import _ from 'lodash'
 
 const ProductListScreen = () => {
   // const pageNumber = useParams() || 1
@@ -34,7 +35,7 @@ const ProductListScreen = () => {
     dispatch({ type: PRODUCT_CREATE_RESET })
     dispatch({type:PRODUCT_UPDATE_RESET})
     dispatch(listProducts())
-    if (!user || !user.isAdmin) {
+    if (_.isEmpty(user) || !user.isAdmin) {
       navigate('/login')
     }
     

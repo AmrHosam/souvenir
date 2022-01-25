@@ -52,26 +52,24 @@ const ProductEditScreen = () => {
         dispatch({ type: PRODUCT_UPDATE_RESET })
         navigate('/admin/productlist')
         
-    } else if (pid) {
-        console.log('wasal pid')
-        const getp  = async() => {await dispatch(getProduct(pid))
-         
-        }
-        getp()
-        
     }
-    else if (!(_.isEmpty(productDetails)))
+    else if (!loading && !_.isEmpty(productDetails))
     {
       console.log('keda')
-      setName(productDetails.name)
-      setCategory(productDetails.category)
-      setPrice(productDetails.price)
-      setCountInStock(productDetails.countInStock)
-      setImage(productDetails.image)
-      setDescription(productDetails.description)
-}
+    setName(productDetails.name)
+    setCategory(productDetails.category)
+    setPrice(productDetails.price)
+    setCountInStock(productDetails.countInStock)
+    setImage(productDetails.image)
+    setDescription(productDetails.description)
+    }
     
-  }, [dispatch, navigate,pid,getProduct,successCreate, successUpdate])
+    else if (typeof loading === "undefined" && pid) {
+        console.log('wasal pid')
+        dispatch(getProduct(pid))
+    }
+  
+  }, [dispatch, navigate,loading,pid,successCreate, successUpdate])
    
   
 
