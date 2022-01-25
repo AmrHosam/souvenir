@@ -1,9 +1,10 @@
+import path from 'path'
 import express from 'express'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import productRouter from './routes/productRoutes.js'
 import userRouter from './routes/userRoutes.js'
-
+import uploadRouter from './routes/uploadRoutes.js'
 dotenv.config()
 
 const app = express()
@@ -25,3 +26,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/users',(userRouter))
 app.use('/shop', productRouter)
+app.use('/api/upload', uploadRouter)
+const __dirname = path.resolve()
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
