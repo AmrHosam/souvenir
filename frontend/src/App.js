@@ -11,11 +11,12 @@ import PaymentScreen from "./Screens/PaymentScreen";
 import ProductListScreen from "./Screens/ProductListScreen";
 import ProductEditScreen from "./Screens/ProductEditScreen";
 import {useSelector} from 'react-redux'
+import _ from "lodash";
 function App() {
   const RequireAuthAdmin = ({ children, redirectTo }) => {
-    const userAuthorization = useSelector(state=> state.userAuthorization)
-    const {admin } = userAuthorization
-        return admin ? children : <Navigate to={redirectTo} />;
+    const userLogin = useSelector(state=> state.userLogin)
+    const {user } = userLogin
+        return user.isAdmin ? children : <Navigate to={redirectTo} />;
   }
   return (
     <Router>
