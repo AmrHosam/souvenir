@@ -1,14 +1,22 @@
 import { Container } from "react-bootstrap";
 import ShopScreen from "./Screens/ShopScreen";
 import MyNav from "./Components/MyNav";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes ,Navigate} from 'react-router-dom'
 import LoginScreen from "./Screens/LoginScreen";
 import ProductScreen from "./Screens/ProductScreen";
 import RegisterScreen from "./Screens/RegisterScreen";
 import CartScreen from './Screens/CartScreen';
 import ShippingScreen from "./Screens/shippingScreen";
 import PaymentScreen from "./Screens/PaymentScreen";
+import ProductListScreen from "./Screens/ProductListScreen";
+import ProductEditScreen from "./Screens/ProductEditScreen";
+import {useSelector} from 'react-redux'
 function App() {
+  const RequireAuthAdmin = ({ children, redirectTo }) => {
+    const userAuthorization = useSelector(state=> state.userAuthorization)
+    const {admin } = userAuthorization
+        return admin ? children : <Navigate to={redirectTo} />;
+  }
   return (
     <Router>
       <MyNav></MyNav>
@@ -25,6 +33,10 @@ function App() {
           <Route path='/cart/:id' element={<CartScreen />}></Route>
           <Route path='/shipping' element={<ShippingScreen />}></Route>
           <Route path='/payment' element={<PaymentScreen />}></Route>
+          
+          <Route path='/admin/productlist' element={<RequireAuthAdmin redirectTo="/login"><ProductListScreen /></RequireAuthAdmin>} exact></Route>
+          <Route path='/admin/productlist/create' element={ <RequireAuthAdmin redirectTo="/login"><ProductEditScreen /></RequireAuthAdmin>} exact></Route>
+          <Route path='/admin/product/:id/edit' element={ <RequireAuthAdmin redirectTo="/login"><ProductEditScreen /></RequireAuthAdmin>} exact></Route>
         </Routes>
       </Container>
     </Router>

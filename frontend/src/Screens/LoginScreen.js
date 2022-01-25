@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/userActions";
@@ -10,10 +10,11 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const Navigate = useNavigate();
+  const location = useLocation()
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, user, error } = userLogin;
   const dispatch = useDispatch();
-
+  console.log(location)
   const EmailhandleChange = (e) => {
     setEmail(e.target.value);
   };
