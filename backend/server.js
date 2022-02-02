@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import productRouter from './routes/productRoutes.js'
 import userRouter from './routes/userRoutes.js'
+import cartRouter from './routes/cartRoutes.js'
 
 dotenv.config()
 
@@ -25,3 +26,4 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/users',(userRouter))
 app.use('/shop', productRouter)
+app.use('/cart', cartRouter)
