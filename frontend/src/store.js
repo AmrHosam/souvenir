@@ -2,7 +2,7 @@ import thunk from "redux-thunk";
 import { combineReducers, applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { userAuthorizationReducer, userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
-import { productListReducer, productDetailsReducer , productCreateReducer, productDeleteReducer, productUpdateReducer } from './reducers/productReducers'
+import { productListReducer, productDetailsReducer, productCreateReducer, productDeleteReducer, productUpdateReducer } from './reducers/productReducers'
 import { cartReducer } from './reducers/cartReducers';
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -13,7 +13,7 @@ const reducer = combineReducers({
   productDelete: productDeleteReducer,
   productCreate: productCreateReducer,
   productUpdate: productUpdateReducer,
-  userAuthorization :userAuthorizationReducer
+  userAuthorization: userAuthorizationReducer
 });
 
 const userInfoFromStorage = localStorage.getItem("user")
@@ -22,7 +22,7 @@ const userInfoFromStorage = localStorage.getItem("user")
 
 const shippingAdressFormStorage = localStorage.getItem("shippingAddress")
   ? JSON.parse(localStorage.getItem("shippingAddress"))
-  : {};
+  : {}
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
 const initialState = {

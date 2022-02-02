@@ -10,7 +10,8 @@ import ShippingScreen from "./Screens/shippingScreen";
 import PaymentScreen from "./Screens/PaymentScreen";
 import ProductListScreen from "./Screens/ProductListScreen";
 import ProductEditScreen from "./Screens/ProductEditScreen";
-import {useSelector} from 'react-redux'
+import PlaceOrederScreen from "./Screens/PlaceOrederScreen"
+import { useSelector } from 'react-redux'
 import _ from "lodash";
 function App() {
   const RequireAuthAdmin = ({ children }) => {
@@ -41,6 +42,7 @@ function App() {
           <Route path='/cart' element={<CartScreen />}></Route>
           <Route path='/cart/:id' element={<CartScreen />}></Route>
           <Route path='/shipping' element={<ShippingScreen />}></Route>
+          <Route path='/placeorder' element={<PlaceOrederScreen />}></Route>
           <Route path='/payment' element={<PaymentScreen />}></Route>
           
           <Route path='/admin/productlist' element={<RequireAuthAdmin ><ProductListScreen /></RequireAuthAdmin>} exact></Route>

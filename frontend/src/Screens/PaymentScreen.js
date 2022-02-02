@@ -28,7 +28,7 @@ const PaymentScreen = ({ history }) => {
         e.preventDefault();
 
         dispatch(savePaymentMethod(PaymentMethod));
-        Navigate('./placeorder')
+        Navigate('/placeorder')
     };
     // useEffect(() => {
     //     if (_.has(user, "_id")) {
