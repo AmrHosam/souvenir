@@ -2,36 +2,22 @@ import Mongoose from 'mongoose'
 
 const orderSchema = Mongoose.Schema({
 
-    user: {
-        Type: Mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
-
-    },
-
     orderItems: [
         {
-            name: { type: String, required: True },
-            qty: { type: Number, required: True },
-            image: { type: String, required: True },
-            price: { type: Number, required: True },
-            product: {
-                Type: Mongoose.Schema.Types.ObjectId,
-                required: true,
-                ref: 'Product'
-            }
+            name: { type: String, required: true },
+            qty: { type: Number, required: true },
+            image: { type: String, required: true },
+            price: { type: Number, required: true },
         }
     ],
 
     shippingAddress: {
-        address: { type: String, required: True },
-        city: { type: String, required: True },
+        address: { type: String, required: true },
+        city: { type: String, required: true },
     },
 
     paymentMethod: {
         Type: String,
-        required: true,
-
     },
 
     paymentResult: {
