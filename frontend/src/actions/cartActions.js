@@ -4,6 +4,9 @@ import {
     CART_ADD_ITEM_DB_REQUEST,
     CART_ADD_ITEM_DB_SUCCESS,
     CART_ADD_ITEM_DB_FAIL,
+    CART_ITEMS_LIST_REQUEST,
+    CART_ITEMS_LIST_SUCCESS,
+    CART_ITEMS_LIST_FAIL,
     CART_REMOVE_ITEM,
     CART_SAVE_SHIPPING_ADDRESS,
     CART_SAVE_PAYMENT_METHOD
@@ -48,6 +51,38 @@ export const addItemDB = (userId, itemId, quantity) => async(dispatch) => {
           });
     }
     
+}
+
+
+export const getCartItems = (userId) => async(dispatch, getState) => {
+    try {
+        dispatch({type: CART_ITEMS_LIST_REQUEST})
+        const cartList = []
+        const { data } = await axios.post('/cart', { userId })
+        for (const item of data){
+            const product = await axios.get(`/shop/${item.product}`)
+            cartList.push({
+                product: product.data._id,
+                name: product.data.name,
+                image: product.data.image,
+                countInStock: product.data.countInStock,
+                price: product.data.price,
+                quantity: item.quantity,
+            })
+        }
+        dispatch({
+                type: CART_ITEMS_LIST_SUCCESS,
+                payload: cartList,
+        })
+    } catch (error) {
+        dispatch({
+            type: CART_ITEMS_LIST_FAIL,
+            payload:
+              error.response && error.response.data.message
+                ? error.response.data.message
+                : error
+        })
+    }
 }
 
 export const removeItem = (id) => (dispatch, getState) => {

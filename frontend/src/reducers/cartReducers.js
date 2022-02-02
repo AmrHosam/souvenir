@@ -4,6 +4,9 @@ import {
     CART_ADD_ITEM_DB_SUCCESS,
     CART_ADD_ITEM_DB_FAIL,
     CART_REMOVE_ITEM,
+    CART_ITEMS_LIST_REQUEST,
+    CART_ITEMS_LIST_SUCCESS,
+    CART_ITEMS_LIST_FAIL,
     CART_SAVE_SHIPPING_ADDRESS,
     CART_SAVE_PAYMENT_METHOD,
 } from '../constants/cartConstants'
@@ -40,7 +43,24 @@ export const cartReducer = (state = { cartItems: [], shippingAddress: [] }, acti
                 ...state,
                 loading: false,
                 error: action.payload
-            }  
+            }
+            case CART_ITEMS_LIST_REQUEST:
+                return {
+                    ...state,
+                    loading: true,
+                }
+            case CART_ITEMS_LIST_SUCCESS:
+                return{
+                    ...state,
+                    loading: false,
+                    cartItems: action.payload
+                }
+            case CART_ITEMS_LIST_FAIL:
+                return{
+                    ...state,
+                    loading: false,
+                    error: action.payload,
+                }  
         case CART_REMOVE_ITEM:
             return {
                 ...state,
