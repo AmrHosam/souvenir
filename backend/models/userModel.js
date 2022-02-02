@@ -37,6 +37,11 @@ const userSchema = mongoose.Schema(
           required: true,
           ref: "Product",
         },
+        quantity: {
+          type: Number,
+          required: true,
+          default: 0,
+        },
       },
     ],
   },

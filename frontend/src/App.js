@@ -1,7 +1,7 @@
 import { Container } from "react-bootstrap";
 import ShopScreen from "./Screens/ShopScreen";
 import MyNav from "./Components/MyNav";
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes ,Navigate, useLocation} from 'react-router-dom'
 import LoginScreen from "./Screens/LoginScreen";
 import ProductScreen from "./Screens/ProductScreen";
 import RegisterScreen from "./Screens/RegisterScreen";
@@ -14,10 +14,18 @@ import PlaceOrederScreen from "./Screens/PlaceOrederScreen"
 import { useSelector } from 'react-redux'
 import _ from "lodash";
 function App() {
-  const RequireAuthAdmin = ({ children, redirectTo }) => {
-    const userLogin = useSelector(state => state.userLogin)
-    const { user } = userLogin
-    return user.isAdmin ? children : <Navigate to={redirectTo} />;
+  const RequireAuthAdmin = ({ children }) => {
+    const userLogin = useSelector(state=> state.userLogin)
+    const {user } = userLogin
+    const location = useLocation()
+    console.log(location.pathname)
+    if (user){
+          return user.isAdmin ? children : <Navigate to={location.state.from} />;
+        }
+        else {
+          console.log('ayyy')
+          return <Navigate to='/login' replace state={{from : location.pathname}}/>
+        }
   }
   return (
     <Router>
@@ -36,9 +44,10 @@ function App() {
           <Route path='/shipping' element={<ShippingScreen />}></Route>
           <Route path='/placeorder' element={<PlaceOrederScreen />}></Route>
           <Route path='/payment' element={<PaymentScreen />}></Route>
-          <Route path='/admin/productlist' element={<RequireAuthAdmin redirectTo="/login"><ProductListScreen /></RequireAuthAdmin>} exact></Route>
-          <Route path='/admin/productlist/create' element={<RequireAuthAdmin redirectTo="/login"><ProductEditScreen /></RequireAuthAdmin>} exact></Route>
-          <Route path='/admin/product/:id/edit' element={<RequireAuthAdmin redirectTo="/login"><ProductEditScreen /></RequireAuthAdmin>} exact></Route>
+          
+          <Route path='/admin/productlist' element={<RequireAuthAdmin ><ProductListScreen /></RequireAuthAdmin>} exact></Route>
+          <Route path='/admin/productlist/create' element={ <RequireAuthAdmin ><ProductEditScreen /></RequireAuthAdmin>} exact></Route>
+          <Route path='/admin/product/:id/edit' element={ <RequireAuthAdmin ><ProductEditScreen /></RequireAuthAdmin>} exact></Route>
         </Routes>
       </Container>
     </Router>

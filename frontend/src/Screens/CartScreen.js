@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import { Button, Col, ListGroup, Row, Form, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useLocation, Link, useNavigate } from 'react-router-dom'
-import { addItem, removeItem } from '../actions/cartActions';
+import { addItem, addItemDB, getCartItems, removeItem, removeItemDB } from '../actions/cartActions';
 import Message from '../Components/Message';
+import Loader from '../Components/Loader'
 
 const CartScreen = () => {
     const Navigate = useNavigate();
@@ -13,17 +14,33 @@ const CartScreen = () => {
 
     const dispatch = useDispatch()
 
-    const cart = useSelector(state => state.cart)
-    const { cartItems } = cart
-    console.log(cartItems)
-
+    const { cart, userLogin } = useSelector(state => state)
+    const { cartItems, loading, error, newItem } = cart
+    const loggedIn = userLogin.user? true : false
+    const userId = userLogin.user? userLogin.user._id : ''
     useEffect(() => {
-        if (id)
-            dispatch(addItem(id, quantity))
-    }, [dispatch, id, quantity])
+        if (id){
+            if(loggedIn)
+                dispatch(addItemDB(userId, id, quantity))
+            else
+                dispatch(addItem(id, quantity))
 
+        }
+        if(loggedIn)
+            dispatch(getCartItems(userId))
+    }, [dispatch, id, quantity])
     const removeFromCartHandler = (id) => {
-        dispatch(removeItem(id))
+        if(loggedIn)
+            dispatch(removeItemDB(userId, id))
+        else
+            dispatch(removeItem(id))
+    }
+
+    const changeQuantityHandler = (itemId, quantity) => {
+        if(loggedIn)
+            dispatch(addItemDB(userId, itemId, quantity))
+        else
+            dispatch(addItem(itemId, quantity))
     }
 
     const checkoutHandler = () => {
@@ -31,6 +48,12 @@ const CartScreen = () => {
         console.log('checkout')
     }
     return (
+        <>
+        {loading ? (
+            <Loader/>
+          ) : error ? (
+            <Message variant='danger'>{error}</Message>
+          ) : (
         <Row>
             <Col me={8}>
                 <h1 style={{ fontSize: '1.8rem', padding: '1rem 0' }}>SHOPPING CART</h1>
@@ -53,7 +76,7 @@ const CartScreen = () => {
                                         {item.price} EGP
                                     </Col>
                                     <Col md={2}>
-                                        <Form.Control as='select' value={item.quantity} onChange={(e) => dispatch(addItem(item.product, Number(e.target.value)))}>
+                                        <Form.Control as='select' value={item.quantity} onChange={(e) => changeQuantityHandler(item.product, Number(e.target.value))}>
                                             {[...Array(item.countInStock).keys()].map(x => (
                                                 <option value={x + 1} key={x + 1}>{x + 1}</option>
                                             ))}
@@ -94,6 +117,8 @@ const CartScreen = () => {
                 </Card>
             </Col>
         </Row>
+    )}
+    </>
     )
 }
 
