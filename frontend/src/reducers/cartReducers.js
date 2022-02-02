@@ -4,6 +4,9 @@ import {
     CART_ADD_ITEM_DB_SUCCESS,
     CART_ADD_ITEM_DB_FAIL,
     CART_REMOVE_ITEM,
+    CART_REMOVE_ITEM_DB_REQUEST,
+    CART_REMOVE_ITEM_DB_SUCCESS,
+    CART_REMOVE_ITEM_DB_FAIL,
     CART_ITEMS_LIST_REQUEST,
     CART_ITEMS_LIST_SUCCESS,
     CART_ITEMS_LIST_FAIL,
@@ -66,6 +69,23 @@ export const cartReducer = (state = { cartItems: [], shippingAddress: [] }, acti
                 ...state,
                 cartItems: state.cartItems.filter((item) => item.product !== action.payload)
             }
+            case CART_REMOVE_ITEM_DB_REQUEST:
+                return {
+                    ...state,
+                    loading: true,
+                }
+            case CART_REMOVE_ITEM_DB_SUCCESS:
+                return {
+                    ...state,
+                    loading: false,
+                    newItem: action.payload
+                }
+            case CART_REMOVE_ITEM_DB_FAIL:
+                return {
+                    ...state,
+                    loading: false,
+                    error: action.payload
+                }
         case CART_SAVE_SHIPPING_ADDRESS:
             return {
                 ...state,
