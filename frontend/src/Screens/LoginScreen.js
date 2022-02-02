@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/userActions";
@@ -10,10 +10,11 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const Navigate = useNavigate();
+  const location = useLocation()
+  console.log(location)
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, user, error } = userLogin;
   const dispatch = useDispatch();
-
   const EmailhandleChange = (e) => {
     setEmail(e.target.value);
   };
@@ -27,10 +28,24 @@ const Login = () => {
   };
   useEffect(() => {
     if (_.has(user, "_id")) {
-      console.log("wasal");
+      console.log(location)
+      if (location.state?.from){
+        Navigate(location.state.from)
+      }
+      else {
+        console.log("wasal");
       Navigate("/");
-    } else Navigate("/login");
-  }, [user]);
+      }
+      
+    }
+     else if (typeof loading !== "undefined" && !loading){
+      return <Navigate to='/login' replace state={{from : location.pathname}}/>
+
+    }           
+
+  }
+  , [user] );
+
   return (
     <Form className="m-5" onSubmit={submitHandler}>
       <h1 className="mx-5 my-4">Sign In </h1>

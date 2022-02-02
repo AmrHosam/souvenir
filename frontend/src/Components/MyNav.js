@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./MyNav.css";
 import { logout } from "../actions/userActions";
-import { LinkContainer } from "react-router-bootstrap";
+import { LinkContainer  } from "react-router-bootstrap";
 import {
   Fade,
   Container,
@@ -14,6 +14,7 @@ import {
   Form,
   Collapse,
   Button,
+  NavDropdown
 } from "react-bootstrap";
 const MyNav = () => {
   const [open, setOpen] = useState(false);
@@ -99,6 +100,19 @@ const MyNav = () => {
                 </Row>
               </Form>
             </Fade>
+            {user && user.isAdmin && (
+                <NavDropdown title='Admin' id='adminmenu'>
+                  <LinkContainer to='/admin/userlist'>
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/productlist'>
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/orderlist'>
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
+              )}
             <LinkContainer to="/login">
               <Nav.Link>
                 {user ? (

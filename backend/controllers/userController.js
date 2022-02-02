@@ -12,9 +12,10 @@ export const authenticateUser = AsyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       tel: user.tel,
+      isAdmin:user.isAdmin,
       address: user.address,
       cart: user.cart,
-      token: generateToken(),
+      token: generateToken(user._id),
     });
   } else {
     res.status(401);

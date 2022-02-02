@@ -13,10 +13,10 @@ import { saveShippingAddress } from '../actions/cartActions';
 
 const ShippingScreen = ({ history }) => {
     const cart = useSelector(state => state.cart)
-    const { ShippingScreen } = cart
-    const [address, setAddress] = useState(saveShippingAddress.address);
-    const [city, setCity] = useState(saveShippingAddress.city);
-    const [phone, setPhone] = useState(saveShippingAddress.city);
+    const { shippingAddress } = cart
+    const [address, setAddress] = useState(shippingAddress.address);
+    const [city, setCity] = useState(shippingAddress.city);
+    const [phone, setPhone] = useState(shippingAddress.phone);
     const Navigate = useNavigate();
     const userLogin = useSelector((state) => state.userLogin);
     const { loading, user, error } = userLogin;
