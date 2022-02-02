@@ -16,11 +16,13 @@ import {
   Button,
   NavDropdown
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 const MyNav = () => {
   const [open, setOpen] = useState(false);
   const [display, setDisplay] = useState({ display: "none" });
   const userLogin = useSelector((state) => state.userLogin);
   const { user } = userLogin;
+  const Navigate = useNavigate()
   const dispatch = useDispatch();
   const clickSearch = () => {
     setOpen(!open);
@@ -30,7 +32,11 @@ const MyNav = () => {
 
   const submitLogout = (e) => {
     dispatch(logout());
+    Navigate('/')
   };
+  const GoLogin = () => {
+    Navigate('/login')
+  }
 
   return (
     <Navbar collapseOnSelect expand="md" className="souvenirNav">
@@ -113,15 +119,13 @@ const MyNav = () => {
                   </LinkContainer>
                 </NavDropdown>
               )}
-            <LinkContainer to="/login">
-              <Nav.Link>
+              
                 {user ? (
-                  <i onClick={submitLogout} class="fas fa-sign-out-alt"></i>
+                  <Nav.Link onClick={submitLogout}>    <i  class="fas fa-sign-out-alt"></i> </Nav.Link>
                 ) : (
-                  <i class="fas fa-sign-in-alt"></i>
+                  <Nav.Link onClick={GoLogin}> <i class="fas fa-sign-in-alt"  ></i> </Nav.Link>
                 )}
-              </Nav.Link>
-            </LinkContainer>
+              
           </Nav>
         </Navbar.Collapse>
       </Container>
