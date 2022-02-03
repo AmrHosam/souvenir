@@ -40,8 +40,32 @@ const getCartItems = asyncHandler(async(req, res) => {
     }
 })
 
+const insertLocalStorage = asyncHandler(async(req, res) => {
+    const { localCart, userId } = req.body
+    const addedList = []
+    const currentUser = await User.findById(userId)
+    for(const product of localCart){
+        const existItem = currentUser.cart.find((item) => item.product.toString() === product.product)
+        if(existItem)
+            existItem.quantity = product.quantity
+        else{
+            addedList.push({
+                product: product.product,
+                quantity: product.quantity,
+            })
+        }
+    }
+    if(addedList.length !== 0){
+        currentUser.cart = currentUser.cart.concat(addedList)
+    }
+    const savedUser = await currentUser.save()
+    res.json(savedUser)
+    console.log(savedUser)
+})
+
 export {
     addItem,
     deleteItem,
-    getCartItems
+    getCartItems,
+    insertLocalStorage
 }

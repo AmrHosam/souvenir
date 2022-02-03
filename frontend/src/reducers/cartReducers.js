@@ -14,6 +14,9 @@ import {
     CART_SAVE_SHIPPING_ADDRESS,
     CART_SAVE_PAYMENT_METHOD,
     CART_INITIALIZE,
+    CART_INSERT_LOCAL_STORAGE_TO_DB_FAIL,
+    CART_INSERT_LOCAL_STORAGE_TO_DB_REQUEST,
+    CART_INSERT_LOCAL_STORAGE_TO_DB_SUCCESS,
 } from '../constants/cartConstants'
 
 export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, action) => {
@@ -97,6 +100,21 @@ export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, acti
             return {
                 ...state,
                 cartItems: action.payload
+            }
+        case CART_INSERT_LOCAL_STORAGE_TO_DB_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case CART_INSERT_LOCAL_STORAGE_TO_DB_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            }
+        case CART_INSERT_LOCAL_STORAGE_TO_DB_FAIL:
+            return {
+                ...state,
+                loading: false
             }
         case CART_SAVE_SHIPPING_ADDRESS:
             return {

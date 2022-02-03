@@ -14,7 +14,10 @@ import {
     CART_SAVE_SHIPPING_ADDRESS,
     CART_SAVE_PAYMENT_METHOD,
     CART_RESET,
-    CART_INITIALIZE
+    CART_INITIALIZE,
+    CART_INSERT_LOCAL_STORAGE_TO_DB_REQUEST,
+    CART_INSERT_LOCAL_STORAGE_TO_DB_SUCCESS,
+    CART_INSERT_LOCAL_STORAGE_TO_DB_FAIL
 
 } from '../constants/cartConstants'
 
@@ -159,6 +162,28 @@ export const initializeCart = () => async(dispatch) => {
         type: CART_INITIALIZE,
         payload: cartItemsFromStorage
     })
+}
+
+export const insertLocalStorageToDB = (userId) => async(dispatch) => {
+    try {
+        const localCart = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
+        dispatch({
+            type: CART_INSERT_LOCAL_STORAGE_TO_DB_REQUEST
+        })
+        const { data } = await axios.post(`/cart/insert/${userId}`, {localCart, userId})
+        dispatch({
+            type: CART_INSERT_LOCAL_STORAGE_TO_DB_SUCCESS
+        })
+    } catch (error) {
+        dispatch({
+            type: CART_INSERT_LOCAL_STORAGE_TO_DB_FAIL,
+            payload:
+              error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message,
+          });
+    }
+    
 }
 
 export const saveShippingAddress = (data) => (dispatch) => {
