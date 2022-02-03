@@ -7,12 +7,22 @@ import Message from "../Components/Message";
 import CheckoutSteps from "../Components/CheckoutSteps";
 import "../Components/MyForm.css";
 import _ from "lodash";
-import { shippingAddress } from "../actions/cartActions";
+import { createOrder } from "../actions/orderAction";
 import { saveShippingAddress } from '../actions/cartActions';
 
-const PlaceOrederScreen = () => {
+const PlaceOrederScreen = ({ history }) => {
+  const dispatch = useDispatch()
+  const Navigate = useNavigate();
   const cart = useSelector(state => state.cart)
   const { cartItems } = cart
+  const orderCreate = useSelector(state => state.orderCreate)
+  const { order, success, error } = orderCreate
+
+  useEffect(() => {
+    if (success) {
+      Navigate(`/order/${order._id}`)
+    }
+  }, [history, success])
   cart.totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -20,7 +30,14 @@ const PlaceOrederScreen = () => {
   cart.shippingPrice = 50
   cart.totalCost = cart.totalPrice + cart.shippingPrice
   const placeOrederHandler = () => {
-    console.log('placeOrederHandler')
+    dispatch(createOrder({
+      orderItems: cartItems,
+      shippingAddress: cart.shippingAddress,
+      paymentMethod: cart.paymentMethod,
+      itemsPrice: cart.totalPrice,
+      shippingPrice: cart.shippingPrice,
+      totalPrice: cart.totalCost,
+    }))
   }
   return (
     <Row>
@@ -93,6 +110,9 @@ const PlaceOrederScreen = () => {
                 <Col> {cart.totalCost}  LE </Col>
               </Row>
             </ListGroup.Item>
+            <ListGroup.item>
+              {error && <Message variant='danger'>{error}</Message>}
+            </ListGroup.item>
             <ListGroup.Item>
               <Button
                 type='button'

@@ -30,6 +30,7 @@ export const logout = () => async (dispatch) => {
     localStorage.removeItem("user");
     dispatch({ type: USER_LOGOUT });
   } catch (error) {
+    console.log('errorrrrrr logout ' , error)
     throw new Error(error);
   }
 };
