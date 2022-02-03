@@ -33,18 +33,18 @@ export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, acti
         case CART_ADD_ITEM_DB_REQUEST:
             return {
                 ...state,
-                loading: true,
+                addLoading: true,
             }
         case CART_ADD_ITEM_DB_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                addLoading: false,
                 newItem: action.payload
             }
         case CART_ADD_ITEM_DB_FAIL:
             return {
                 ...state,
-                loading: false,
+                addLoading: false,
                 error: action.payload
             }
             case CART_ITEMS_LIST_REQUEST:

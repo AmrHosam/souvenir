@@ -15,20 +15,14 @@ const CartScreen = () => {
     const dispatch = useDispatch()
 
     const { cart, userLogin } = useSelector(state => state)
-    const { cartItems, loading, error, newItem } = cart
+    const { cartItems, loading, addLoading, error, newItem } = cart
     const loggedIn = userLogin.user? true : false
     const userId = userLogin.user? userLogin.user._id : ''
     useEffect(() => {
-        if (id){
-            if(loggedIn)
-                dispatch(addItemDB(userId, id, quantity))
-            else
-                dispatch(addItem(id, quantity))
-
-        }
-        if(loggedIn)
+        if(loggedIn && !addLoading){
             dispatch(getCartItems(userId))
-    }, [dispatch, id, quantity])
+        }
+    }, [dispatch, id, quantity, addLoading])
     const removeFromCartHandler = (id) => {
         if(loggedIn)
             dispatch(removeItemDB(userId, id))
@@ -49,7 +43,7 @@ const CartScreen = () => {
     }
     return (
         <>
-        {loading ? (
+        {loading || addLoading ? (
             <Loader/>
           ) : error ? (
             <Message variant='danger'>{error}</Message>

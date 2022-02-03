@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button, Form} from 'react-bootstrap'
 import { getProduct } from '../actions/productActions';
+import { addItem, addItemDB } from '../actions/cartActions';
 import Loader from '../Components/Loader'
 import Message from '../Components/Message'
 
@@ -15,15 +16,23 @@ const ProductScreen = () => {
 
     const dispatch = useDispatch()
 
-    const state = useSelector(state => state.product)
-    const { loading, product, error } = state
+    const state = useSelector(state => state)
+    const { loading, product, error } = state.product
+    const userLogin = state.userLogin
+
+    const loggedIn = userLogin.user? true : false
+    const userId = userLogin.user? userLogin.user._id : ''
 
     useEffect(() => {
         dispatch(getProduct(id))
     },[id, dispatch])
 
     const addToCartHandler = () => {
-        navigate(`/cart/${id}?qty=${quantity}`)
+        if(loggedIn)
+            dispatch(addItemDB(userId, id, quantity))
+        else
+            dispatch(addItem(id, quantity))
+        navigate('/cart')
     }
 
     return (
