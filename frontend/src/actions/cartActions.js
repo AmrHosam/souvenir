@@ -153,6 +153,7 @@ export const removeItemDB = (userId, itemId) => async(dispatch) => {
 }
 
 export const resetCart = () => async(dispatch) => {
+    localStorage.setItem('cartItems', JSON.stringify([]))
     dispatch({type:CART_RESET})
 }
 
