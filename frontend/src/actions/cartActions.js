@@ -37,14 +37,28 @@ export const addItemDB = (userId, itemId, quantity) => async(dispatch) => {
         dispatch({
             type: CART_ADD_ITEM_DB_REQUEST
         })
-        await dispatch(addItem(itemId, quantity))
+        const { data:product } = await axios.get(`/shop/${itemId}`)
+        dispatch({
+            type: CART_ADD_ITEM,
+            payload: {
+                product: product._id,
+                name: product.name,
+                image: product.image,
+                countInStock: product.countInStock,
+                price: product.price,
+                quantity,
+            }
+        })
         const { data } = await axios.post(`/cart/${itemId}`, { quantity, userId})
         dispatch({
             type: CART_ADD_ITEM_DB_SUCCESS,
             payload: data,
         })
     } catch (error) {
-        dispatch(removeItem(itemId))
+        dispatch({
+            type: CART_REMOVE_ITEM,
+            payload: itemId
+        })
         dispatch({
             type: CART_ADD_ITEM_DB_FAIL,
             payload:
@@ -101,14 +115,28 @@ export const removeItemDB = (userId, itemId) => async(dispatch) => {
         dispatch({
             type: CART_REMOVE_ITEM_DB_REQUEST
         })
-        await dispatch(removeItem(itemId))
+        dispatch({
+            type: CART_REMOVE_ITEM,
+            payload: itemId
+        })
         const { data } = await axios.post(`/cart/delete/${itemId}`, {userId})
         dispatch({
             type: CART_REMOVE_ITEM_DB_SUCCESS,
             payload: data,
         })
     } catch (error) {
-        dispatch(addItem(itemId, 1))
+        const { data:product } = await axios.get(`/shop/${itemId}`)
+        dispatch({
+            type: CART_ADD_ITEM,
+            payload: {
+                product: product._id,
+                name: product.name,
+                image: product.image,
+                countInStock: product.countInStock,
+                price: product.price,
+                quantity: 1,
+            }
+        })
         dispatch({
             type: CART_REMOVE_ITEM_DB_FAIL,
             payload:
