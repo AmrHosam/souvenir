@@ -12,7 +12,9 @@ import {
     CART_REMOVE_ITEM_DB_SUCCESS,
     CART_REMOVE_ITEM_DB_FAIL,
     CART_SAVE_SHIPPING_ADDRESS,
-    CART_SAVE_PAYMENT_METHOD
+    CART_SAVE_PAYMENT_METHOD,
+    CART_RESET,
+    CART_INITIALIZE
 
 } from '../constants/cartConstants'
 
@@ -145,6 +147,18 @@ export const removeItemDB = (userId, itemId) => async(dispatch) => {
                 : error.message,
           });
     }
+}
+
+export const resetCart = () => async(dispatch) => {
+    dispatch({type:CART_RESET})
+}
+
+export const initializeCart = () => async(dispatch) => {
+    const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
+    dispatch({
+        type: CART_INITIALIZE,
+        payload: cartItemsFromStorage
+    })
 }
 
 export const saveShippingAddress = (data) => (dispatch) => {

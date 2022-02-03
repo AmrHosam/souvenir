@@ -17,6 +17,7 @@ import {
   NavDropdown
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { resetCart } from "../actions/cartActions";
 const MyNav = () => {
   const [open, setOpen] = useState(false);
   const [display, setDisplay] = useState({ display: "none" });
@@ -31,6 +32,7 @@ const MyNav = () => {
   };
 
   const submitLogout = (e) => {
+    dispatch(resetCart())
     dispatch(logout());
     Navigate('/')
   };
