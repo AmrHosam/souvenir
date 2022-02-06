@@ -40,7 +40,7 @@ const orderSchema = Mongoose.Schema({
     },
 
     paymentMethod: {
-        Type: String,
+        type: String,
     },
 
     paymentResult: {
