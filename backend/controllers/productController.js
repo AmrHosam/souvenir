@@ -38,7 +38,7 @@ const getProductById = asyncHandler(async(req, res) => {
     if(product){
         const alreadyReviewed = product.reviews.find((rev) => rev.user.toString() === req.user._id.toString())
         if(alreadyReviewed){
-            res.status(400)
+            res.status(400).json({message: 'Product already reviewed'})
             throw new Error('Product already reviewed')
         }
         const review = {
@@ -53,7 +53,7 @@ const getProductById = asyncHandler(async(req, res) => {
         await product.save()
         res.status(201).json({ message: 'Review added '})
     }else{
-        res.status(404)
+        res.status(404).json({message: 'Product not found'})
         throw new Error('Product not found')
     }
   })
