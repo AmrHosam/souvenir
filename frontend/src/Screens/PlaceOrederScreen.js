@@ -10,7 +10,7 @@ import _ from "lodash";
 import { createOrder } from "../actions/orderAction";
 import { saveShippingAddress } from '../actions/cartActions';
 
-const PlaceOrederScreen = ({ history }) => {
+const PlaceOrederScreen = () => {
   const dispatch = useDispatch()
   const Navigate = useNavigate();
   const cart = useSelector(state => state.cart)
@@ -22,7 +22,7 @@ const PlaceOrederScreen = ({ history }) => {
     if (success) {
       Navigate(`/order/${order._id}`)
     }
-  }, [history, success])
+  }, [success])
   cart.totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -31,7 +31,7 @@ const PlaceOrederScreen = ({ history }) => {
   cart.totalCost = cart.totalPrice + cart.shippingPrice
   const placeOrederHandler = () => {
     dispatch(createOrder({
-      orderItems: cartItems,
+      orderItems: cart.cartItems,
       shippingAddress: cart.shippingAddress,
       paymentMethod: cart.paymentMethod,
       itemsPrice: cart.totalPrice,
@@ -39,9 +39,11 @@ const PlaceOrederScreen = ({ history }) => {
       totalPrice: cart.totalCost,
     }))
   }
+
   return (
     <Row>
       <CheckoutSteps step1 step2 step3 step4 />
+
       <Col me={8}>
         {cartItems.length === 0 ? (
           <Message>
@@ -59,6 +61,7 @@ const PlaceOrederScreen = ({ history }) => {
                   {cart.shippingAddress.phone}         </p>
               </Row>
             </ListGroup.Item>
+
             <ListGroupItem>
               <Row>
                 <h2>Payment Method</h2>
@@ -86,6 +89,7 @@ const PlaceOrederScreen = ({ history }) => {
           </ListGroup>
         )}
       </Col>
+
       <Col md={4}>
         <Card>
           <ListGroup variant='flush'>
@@ -110,9 +114,7 @@ const PlaceOrederScreen = ({ history }) => {
                 <Col> {cart.totalCost}  LE </Col>
               </Row>
             </ListGroup.Item>
-            <ListGroup.item>
-              {error && <Message variant='danger'>{error}</Message>}
-            </ListGroup.item>
+
             <ListGroup.Item>
               <Button
                 type='button'
@@ -128,47 +130,11 @@ const PlaceOrederScreen = ({ history }) => {
         </Card>
       </Col>
     </Row>
-    // <Row>
-    //   <CheckoutSteps step1 step2 step3 step4 />
-    //   <ListGroup variant="flush">
-    //     <ListGroupItem>
-    //       <h2>shipping</h2>
-
-    //       <strong>Address:</strong>
-    //       <p>
-    //         {cart.shippingAddress.address}, {cart.shippingAddress.city},
-    //         {cart.shippingAddress.phone}         </p>
-    //     </ListGroupItem>
-    //     <ListGroupItem>
-    //       <h2>Payment Method</h2>
-    //       <strong>Method:</strong>
-    //       {cart.paymentMethod}
-    //     </ListGroupItem>
-    //     <ListGroupItem>
-    //       <h2>Order Items</h2>
-    //       {cart.cartItems.length === 0 ? <Message>Your cart is empty</Message> : (
-    //         <p> {cartItems.map((item, index) => (
-    //           <Row>
-    //             <Col md={1}>
-    //               <Image src={item.image} alt={item.name} fluid rounded></Image>
-    //             </Col>
-    //             <Col>
-    //               <Link to={`/shop/${item.product}`}>{item.name}</Link>
-    //             </Col>
-    //             <Col md={4}>
-    //               {item.quantity} x {item.price} = {item.quantity * item.price} EGP
-    //             </Col>
-
-    //           </Row>
-    //         ))}</p>
-    //       )}
-
-    //     </ListGroupItem>
-    //   </ListGroup>
-
-    // </Row>
 
   )
-};
+}
 
-export default PlaceOrederScreen;
+export default PlaceOrederScreen
+    //         <ListGroup.item>
+    //           {error && <Message variant='danger'>{error}</Message>}
+    //         </ListGroup.item>
