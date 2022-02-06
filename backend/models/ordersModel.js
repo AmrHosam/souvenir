@@ -34,8 +34,8 @@ const orderSchema = Mongoose.Schema({
     ],
 
     shippingAddress: {
-        address: { type: String, required: true },
-        city: { type: String, required: true },
+        address: { type: String },
+        city: { type: String },
         phone: { type: Number }
     },
 
