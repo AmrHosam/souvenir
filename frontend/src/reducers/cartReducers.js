@@ -10,8 +10,13 @@ import {
     CART_ITEMS_LIST_REQUEST,
     CART_ITEMS_LIST_SUCCESS,
     CART_ITEMS_LIST_FAIL,
+    CART_RESET,
     CART_SAVE_SHIPPING_ADDRESS,
     CART_SAVE_PAYMENT_METHOD,
+    CART_INITIALIZE,
+    CART_INSERT_LOCAL_STORAGE_TO_DB_FAIL,
+    CART_INSERT_LOCAL_STORAGE_TO_DB_REQUEST,
+    CART_INSERT_LOCAL_STORAGE_TO_DB_SUCCESS,
 } from '../constants/cartConstants'
 
 export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, action) => {
@@ -33,18 +38,18 @@ export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, acti
         case CART_ADD_ITEM_DB_REQUEST:
             return {
                 ...state,
-                loading: true,
+                addLoading: true,
             }
         case CART_ADD_ITEM_DB_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                addLoading: false,
                 newItem: action.payload
             }
         case CART_ADD_ITEM_DB_FAIL:
             return {
                 ...state,
-                loading: false,
+                addLoading: false,
                 error: action.payload
             }
             case CART_ITEMS_LIST_REQUEST:
@@ -69,23 +74,48 @@ export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, acti
                 ...state,
                 cartItems: state.cartItems.filter((item) => item.product !== action.payload)
             }
-            case CART_REMOVE_ITEM_DB_REQUEST:
-                return {
-                    ...state,
-                    loading: true,
-                }
-            case CART_REMOVE_ITEM_DB_SUCCESS:
-                return {
-                    ...state,
-                    loading: false,
-                    newItem: action.payload
-                }
-            case CART_REMOVE_ITEM_DB_FAIL:
-                return {
-                    ...state,
-                    loading: false,
-                    error: action.payload
-                }
+        case CART_REMOVE_ITEM_DB_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+        case CART_REMOVE_ITEM_DB_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                newItem: action.payload
+            }
+        case CART_REMOVE_ITEM_DB_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+        case CART_RESET:
+            return {
+                ...state,
+                cartItems: []
+            }
+        case CART_INITIALIZE:
+            return {
+                ...state,
+                cartItems: action.payload
+            }
+        case CART_INSERT_LOCAL_STORAGE_TO_DB_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case CART_INSERT_LOCAL_STORAGE_TO_DB_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            }
+        case CART_INSERT_LOCAL_STORAGE_TO_DB_FAIL:
+            return {
+                ...state,
+                loading: false
+            }
         case CART_SAVE_SHIPPING_ADDRESS:
             return {
                 ...state,

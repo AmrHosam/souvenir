@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector }from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
+import { useParams } from 'react-router-dom'
 import Product from '../Components/Product'
 import Loader from '../Components/Loader'
 import Message from '../Components/Message'
@@ -12,10 +13,11 @@ const ShopScreen = () => {
 
   const state = useSelector(state => state.productList)
   const { products, loading, error } = state
+  const keyword = useParams().keyword
 
   useEffect(() => {
-    dispatch(listProducts())
-  }, [dispatch])
+    dispatch(listProducts(keyword))
+  }, [dispatch, keyword])
       return (
         <>
           {loading ? (

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Button, Col, ListGroup, Row, Form, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useLocation, Link, useNavigate } from 'react-router-dom'
-import { addItem, addItemDB, getCartItems, removeItem, removeItemDB } from '../actions/cartActions';
+import { addItem, addItemDB, getCartItems, initializeCart, removeItem, removeItemDB } from '../actions/cartActions';
 import Message from '../Components/Message';
 import Loader from '../Components/Loader'
 
@@ -15,20 +15,17 @@ const CartScreen = () => {
     const dispatch = useDispatch()
 
     const { cart, userLogin } = useSelector(state => state)
-    const { cartItems, loading, error, newItem } = cart
+    const { cartItems, loading, addLoading, error, newItem } = cart
     const loggedIn = userLogin.user? true : false
     const userId = userLogin.user? userLogin.user._id : ''
     useEffect(() => {
-        if (id){
-            if(loggedIn)
-                dispatch(addItemDB(userId, id, quantity))
-            else
-                dispatch(addItem(id, quantity))
-
+        if(loggedIn){
+            if(!addLoading)
+                dispatch(getCartItems(userId))
+        } else {
+            dispatch(initializeCart())
         }
-        if(loggedIn)
-            dispatch(getCartItems(userId))
-    }, [dispatch, id, quantity])
+    }, [dispatch, id, quantity, addLoading])
     const removeFromCartHandler = (id) => {
         if(loggedIn)
             dispatch(removeItemDB(userId, id))
@@ -49,7 +46,7 @@ const CartScreen = () => {
     }
     return (
         <>
-        {loading ? (
+        {loading || addLoading ? (
             <Loader/>
           ) : error ? (
             <Message variant='danger'>{error}</Message>

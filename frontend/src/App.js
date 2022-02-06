@@ -39,6 +39,7 @@ function App() {
           <Route path='/' element={<ShopScreen />} exact></Route>
           <Route path='/shop' element={<ShopScreen />} exact></Route>
           <Route path='/shop/:id' element={<ProductScreen />}></Route>
+          <Route path='/shop/search/:keyword' element={<ShopScreen />}></Route>
           <Route path='/cart' element={<CartScreen />}></Route>
           <Route path='/cart/:id' element={<CartScreen />}></Route>
           <Route path='/shipping' element={<ShippingScreen />}></Route>

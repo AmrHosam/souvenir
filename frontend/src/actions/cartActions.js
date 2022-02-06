@@ -12,7 +12,12 @@ import {
     CART_REMOVE_ITEM_DB_SUCCESS,
     CART_REMOVE_ITEM_DB_FAIL,
     CART_SAVE_SHIPPING_ADDRESS,
-    CART_SAVE_PAYMENT_METHOD
+    CART_SAVE_PAYMENT_METHOD,
+    CART_RESET,
+    CART_INITIALIZE,
+    CART_INSERT_LOCAL_STORAGE_TO_DB_REQUEST,
+    CART_INSERT_LOCAL_STORAGE_TO_DB_SUCCESS,
+    CART_INSERT_LOCAL_STORAGE_TO_DB_FAIL
 
 } from '../constants/cartConstants'
 
@@ -37,14 +42,28 @@ export const addItemDB = (userId, itemId, quantity) => async(dispatch) => {
         dispatch({
             type: CART_ADD_ITEM_DB_REQUEST
         })
-        await dispatch(addItem(itemId, quantity))
+        const { data:product } = await axios.get(`/shop/${itemId}`)
+        dispatch({
+            type: CART_ADD_ITEM,
+            payload: {
+                product: product._id,
+                name: product.name,
+                image: product.image,
+                countInStock: product.countInStock,
+                price: product.price,
+                quantity,
+            }
+        })
         const { data } = await axios.post(`/cart/${itemId}`, { quantity, userId})
         dispatch({
             type: CART_ADD_ITEM_DB_SUCCESS,
             payload: data,
         })
     } catch (error) {
-        dispatch(removeItem(itemId))
+        dispatch({
+            type: CART_REMOVE_ITEM,
+            payload: itemId
+        })
         dispatch({
             type: CART_ADD_ITEM_DB_FAIL,
             payload:
@@ -101,14 +120,28 @@ export const removeItemDB = (userId, itemId) => async(dispatch) => {
         dispatch({
             type: CART_REMOVE_ITEM_DB_REQUEST
         })
-        await dispatch(removeItem(itemId))
+        dispatch({
+            type: CART_REMOVE_ITEM,
+            payload: itemId
+        })
         const { data } = await axios.post(`/cart/delete/${itemId}`, {userId})
         dispatch({
             type: CART_REMOVE_ITEM_DB_SUCCESS,
             payload: data,
         })
     } catch (error) {
-        dispatch(addItem(itemId, 1))
+        const { data:product } = await axios.get(`/shop/${itemId}`)
+        dispatch({
+            type: CART_ADD_ITEM,
+            payload: {
+                product: product._id,
+                name: product.name,
+                image: product.image,
+                countInStock: product.countInStock,
+                price: product.price,
+                quantity: 1,
+            }
+        })
         dispatch({
             type: CART_REMOVE_ITEM_DB_FAIL,
             payload:
@@ -117,6 +150,41 @@ export const removeItemDB = (userId, itemId) => async(dispatch) => {
                 : error.message,
           });
     }
+}
+
+export const resetCart = () => async(dispatch) => {
+    localStorage.setItem('cartItems', JSON.stringify([]))
+    dispatch({type:CART_RESET})
+}
+
+export const initializeCart = () => async(dispatch) => {
+    const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
+    dispatch({
+        type: CART_INITIALIZE,
+        payload: cartItemsFromStorage
+    })
+}
+
+export const insertLocalStorageToDB = (userId) => async(dispatch) => {
+    try {
+        const localCart = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
+        dispatch({
+            type: CART_INSERT_LOCAL_STORAGE_TO_DB_REQUEST
+        })
+        const { data } = await axios.post(`/cart/insert/${userId}`, {localCart, userId})
+        dispatch({
+            type: CART_INSERT_LOCAL_STORAGE_TO_DB_SUCCESS
+        })
+    } catch (error) {
+        dispatch({
+            type: CART_INSERT_LOCAL_STORAGE_TO_DB_FAIL,
+            payload:
+              error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message,
+          });
+    }
+    
 }
 
 export const saveShippingAddress = (data) => (dispatch) => {

@@ -8,6 +8,9 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
 } from "../constants/userConstants";
+import {
+  insertLocalStorageToDB
+} from './cartActions'
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
@@ -15,6 +18,7 @@ export const login = (email, password) => async (dispatch) => {
     console.log(data);
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     localStorage.setItem("user", JSON.stringify(data));
+    dispatch(insertLocalStorageToDB(data._id))
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
