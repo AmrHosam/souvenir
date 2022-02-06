@@ -15,3 +15,6 @@
 .product-title:hover{
     text-decoration: underline;
 }
+.rating span{
+    margin: 0.1rem;
+  }

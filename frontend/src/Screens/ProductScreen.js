@@ -4,6 +4,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button, Form} from 'react-bootstrap'
 import { getProduct } from '../actions/productActions';
 import { addItem, addItemDB } from '../actions/cartActions';
+import Rating from '../Components/Rating';
 import Loader from '../Components/Loader'
 import Message from '../Components/Message'
 
@@ -47,6 +48,9 @@ const ProductScreen = () => {
                         <ListGroup variant="flush">
                             <ListGroup.Item>
                                 <h4>{product.name}</h4>
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                                <Rating value={product.rating} text={`${product.numReviews} reviews`}/>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 Price: {product.price} EGP
