@@ -47,8 +47,10 @@ function App() {
           <Route path='/register' element={<RegisterScreen />} exact></Route>
           <Route path='/' element={<ShopScreen />} exact></Route>
           <Route path='/shop' element={<ShopScreen />} exact></Route>
+          <Route path='/shop/search/:keyword' element={<ShopScreen />} exact></Route>
+          <Route path='/shop/page/:pageNumber' element={<ShopScreen />} exact></Route>
+          <Route path='/shop/search/:keyword/page/:pageNumber' element={<ShopScreen />} exact></Route>
           <Route path='/shop/:id' element={<ProductScreen />}></Route>
-          <Route path='/shop/search/:keyword' element={<ShopScreen />}></Route>
           <Route path='/cart' element={<CartScreen />}></Route>
           <Route path='/cart/:id' element={<CartScreen />}></Route>
           <Route path='/shipping' element={<ShippingScreen />}></Route>
@@ -56,6 +58,7 @@ function App() {
           <Route path='/payment' element={<PaymentScreen />}></Route>
 
           <Route path='/admin/productlist' element={<RequireAuthAdmin ><ProductListScreen /></RequireAuthAdmin>} exact></Route>
+          <Route path='/admin/productlist/:pageNumber' element={<RequireAuthAdmin ><ProductListScreen /></RequireAuthAdmin>} exact></Route>
           <Route path='/admin/productlist/create' element={<RequireAuthAdmin ><ProductEditScreen /></RequireAuthAdmin>} exact></Route>
           <Route path='/admin/product/:id/edit' element={<RequireAuthAdmin ><ProductEditScreen /></RequireAuthAdmin>} exact></Route>
         </Routes>
