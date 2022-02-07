@@ -37,7 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/users', (userRouter))
 app.use('/shop', productRouter)
-app.use * ('/orders', orderRoutes)
+app.use('/orders', orderRoutes)
 
 app.use('/cart', cartRouter)
 
