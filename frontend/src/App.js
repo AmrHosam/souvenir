@@ -49,6 +49,7 @@ function App() {
           <Route path='/payment' element={<PaymentScreen />}></Route>
 
           <Route path='/admin/productlist' element={<RequireAuthAdmin ><ProductListScreen /></RequireAuthAdmin>} exact></Route>
+          <Route path='/admin/productlist/:pageNumber' element={<RequireAuthAdmin ><ProductListScreen /></RequireAuthAdmin>} exact></Route>
           <Route path='/admin/productlist/create' element={<RequireAuthAdmin ><ProductEditScreen /></RequireAuthAdmin>} exact></Route>
           <Route path='/admin/product/:id/edit' element={<RequireAuthAdmin ><ProductEditScreen /></RequireAuthAdmin>} exact></Route>
         </Routes>

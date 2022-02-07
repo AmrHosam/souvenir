@@ -4,6 +4,7 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../Components/Message'
 import Loader from '../Components/Loader'
+import Paginate from '../Components/Paginate'
 import {  useNavigate } from 'react-router-dom'
  import {
    deleteProduct, getProduct, listProducts,
@@ -11,14 +12,16 @@ import {  useNavigate } from 'react-router-dom'
 import { PRODUCT_CREATE_RESET, PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 import { PRODUCT_DETAILS_RESET } from '../constants/userConstants'
 import _ from 'lodash'
+import { useParams } from 'react-router-dom'
 
 const ProductListScreen = () => {
-  // const pageNumber = useParams() || 1
+  const page = useParams().pageNumber || 1
+  
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const productList = useSelector((state) => state.productList)
-  const { loading, error, products } = productList
+  const { loading, error, products, pageNumber, numberOfPages } = productList
 
    const productDelete = useSelector((state) => state.productDelete)
    const {
@@ -34,7 +37,7 @@ const ProductListScreen = () => {
     dispatch({ type: PRODUCT_DETAILS_RESET })
     dispatch({ type: PRODUCT_CREATE_RESET })
     dispatch({type:PRODUCT_UPDATE_RESET})
-    dispatch(listProducts())
+    dispatch(listProducts('', page))
     if (_.isEmpty(user) || !user.isAdmin) {
       navigate('/login')
     }
@@ -44,7 +47,8 @@ const ProductListScreen = () => {
      dispatch,
      user,
      navigate,
-     successDelete
+     successDelete,
+     page
     ])
    const deleteHandler = (id) => {
      if (window.confirm('Are you sure')) {
@@ -112,6 +116,7 @@ const ProductListScreen = () => {
               ))}
             </tbody>
           </Table>
+          <Paginate pageNumber={pageNumber} numberOfPages={numberOfPages} isAdmin={true}/>
         </>
       )}
     </>

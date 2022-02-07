@@ -5,7 +5,7 @@ const Paginate = ({pageNumber, numberOfPages, keyword='', isAdmin = false}) => {
     return numberOfPages > 1 && (
         <Pagination>
             {[...Array(numberOfPages).keys()].map((x) => (
-                <LinkContainer key={x+1} to={keyword?`/shop/search/${keyword}/page/${x+1}`:`/shop/page/${x+1}`}>
+                <LinkContainer key={x+1} to={isAdmin?`/admin/productList/${x+1}`:keyword?`/shop/search/${keyword}/page/${x+1}`:`/shop/page/${x+1}`}>
                     <Pagination.Item active={x+1 === pageNumber}>{x+1}</Pagination.Item>
                 </LinkContainer>
             ))}
