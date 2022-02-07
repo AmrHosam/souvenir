@@ -7,19 +7,24 @@ import {
 
 export const createOrder = (order) => async (dispatch, getState) => {
     try {
-        dispatch({ type: ORDER_CREATE_REQUEST });
-        const { data } = await axios.post('/orders', order);
-        dispatch({ type: ORDER_CREATE_SUCCESS, payload: order });
+        dispatch({
+            type: ORDER_CREATE_REQUEST,
+        })
+        const { data } = await axios.post(`/orders`, order)
 
-        //   dispatch({ type: ORDER_CREATE_SUCCESS, payload: order });
-        //   localStorage.setItem("user", JSON.stringify(order));
+        dispatch({
+            type: ORDER_CREATE_SUCCESS,
+            payload: data,
+        })
     } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
         dispatch({
             type: ORDER_CREATE_FAIL,
-            payload:
-                error.response && error.response.data.message
-                    ? error.response.data.message
-                    : error.message,
-        });
+            payload: message,
+        })
     }
-};
+}
+

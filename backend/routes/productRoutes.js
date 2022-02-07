@@ -1,5 +1,5 @@
 import express from 'express'
-import { getProducts, getProductById } from '../controllers/productController.js'
+import { getProducts, getProductById, createProductReview } from '../controllers/productController.js'
 
 import asyncHandler from 'express-async-handler'
 import { protect,admin } from '../middleware/authMiddleware.js'
@@ -9,6 +9,8 @@ const router = express.Router()
 router.route('/').get(getProducts)
 
 router.route('/:id').get(getProductById)
+
+router.route('/:id/reviews').post(protect, createProductReview)
 
 // @desc    Delete a product
 // @route   DELETE /api/products/:id

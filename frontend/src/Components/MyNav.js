@@ -21,6 +21,7 @@ import { resetCart } from "../actions/cartActions";
 const MyNav = () => {
   const [open, setOpen] = useState(false);
   const [display, setDisplay] = useState({ display: "none" });
+  const [keyword, setKeyword] = useState('')
   const userLogin = useSelector((state) => state.userLogin);
   const { user } = userLogin;
   const Navigate = useNavigate()
@@ -38,6 +39,16 @@ const MyNav = () => {
   };
   const GoLogin = () => {
     Navigate('/login')
+  }
+
+  const submitHandler = (e) => {
+    e.preventDefault()
+    if(keyword.trim()){
+      Navigate(`/shop/search/${keyword}`)
+    }else{
+      Navigate('/shop')
+    }
+     
   }
 
   return (
@@ -87,6 +98,7 @@ const MyNav = () => {
                 className="toggleSearchIcon "
                 id="searchBar"
                 style={display}
+                onSubmit={submitHandler}
               >
                 <Row className="m-auto">
                   <Col xs={10}>
@@ -95,6 +107,7 @@ const MyNav = () => {
                       placeholder="Search"
                       aria-label="Search"
                       size="sm"
+                      onChange={(e) => setKeyword(e.target.value)}
                     />
                   </Col>
                   <Col xs={2}>

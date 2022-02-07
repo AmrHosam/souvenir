@@ -4,20 +4,43 @@ const orderSchema = Mongoose.Schema({
 
     orderItems: [
         {
-            name: { type: String, required: true },
-            qty: { type: Number, required: true },
-            image: { type: String, required: true },
-            price: { type: Number, required: true },
+            name: {
+                type: String,
+
+            },
+            image: {
+                type: String,
+
+            },
+            description: {
+                type: String,
+
+            },
+            category: {
+                type: String,
+
+            },
+            countInStock: {
+                type: Number,
+
+                default: 0,
+            },
+            price: {
+                type: Number,
+
+                default: 0,
+            }
         }
     ],
 
     shippingAddress: {
-        address: { type: String, required: true },
-        city: { type: String, required: true },
+        address: { type: String },
+        city: { type: String },
+        phone: { type: Number }
     },
 
     paymentMethod: {
-        Type: String,
+        type: String,
     },
 
     paymentResult: {
@@ -30,14 +53,14 @@ const orderSchema = Mongoose.Schema({
 
     shippingPrice: {
         type: Number,
-        required: true,
+
         default: 0.0,
 
     },
 
     totalPrice: {
         type: Number,
-        required: true,
+
         default: 0.0,
 
     }

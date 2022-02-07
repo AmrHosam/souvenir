@@ -1,8 +1,23 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
+import Rating from './Rating'
+import { addItem, addItemDB } from '../actions/cartActions';
 
 const Product = ({ product }) => {
+    const dispatch = useDispatch()
+    const { userLogin } = useSelector(state => state)
+
+    const loggedIn = userLogin.user? true : false
+    const userId = userLogin.user? userLogin.user._id : ''
+    const addtoCart = (id) => {
+        console.log(id)
+        if(loggedIn)
+            dispatch(addItemDB(userId, id, 1))
+        else
+            dispatch(addItem(id, 1))
+    }
     return (
         <Card className="my-3 p-3 rounded">
             <Link to={`/shop/${product._id}`}>
@@ -17,11 +32,14 @@ const Product = ({ product }) => {
                             <strong>{product.name}</strong>
                         </div>
                     </Link>
-                    <Link to={`/add${product._id}`}>
+                </Card.Title>
+                <Card.Text as="div">
+                    <Rating value={product.rating} text={`${product.numReviews} reviews`}/>
+                    <Link to={'/cart'} onClick={() => (product.countInStock > 0) && addtoCart(product._id)}>
                         <i className="far fa-bookmark fa-2x" style={{float: "right"}}></i>
                     </Link>
-                </Card.Title>
-                <Card.Text as="h5">
+                </Card.Text>
+                <Card.Text as="h5" style={{marginTop:"6px"}}>
                     {product.price} EGP
                 </Card.Text>
             </Card.Body>
