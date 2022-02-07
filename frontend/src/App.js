@@ -27,6 +27,15 @@ function App() {
       return <Navigate to='/login' replace state={{ from: location.pathname }} />
     }
   }
+  const RequireAuthUser = ({ children }) => {
+    const userLogin = useSelector(state=> state.userLogin)
+    const {user } = userLogin
+    const location = useLocation()
+    console.log(location.pathname)
+    
+          return user ? children : <Navigate to='/login' replace state={{from : location.pathname}}/>
+        
+  }
   return (
     <Router>
       <MyNav></MyNav>
