@@ -1,7 +1,11 @@
 import Mongoose from 'mongoose'
 
 const orderSchema = Mongoose.Schema({
-
+    user: {
+        type: Mongoose.Schema.Types.ObjectId,
+        default: '620016904c565ac0084256a5',
+        ref: 'User',
+    },
     orderItems: [
         {
             name: {
