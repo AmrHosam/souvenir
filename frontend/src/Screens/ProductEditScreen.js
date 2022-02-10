@@ -38,7 +38,8 @@ const ProductEditScreen = () => {
    const [countInStock, setCountInStock] = useState(_.isEmpty(productDetails)?0 : productDetails.countInStock)
    const [description, setDescription] = useState(_.isEmpty(productDetails)?'' : productDetails.description)
    const [uploading, setUploading] = useState(false)
-  
+   const [submit,setSubmit] = useState(false)
+   const [file,setFile] = useState('')
    const navigate = useNavigate()
    const dispatch = useDispatch()
   useEffect(() => {
@@ -53,53 +54,8 @@ const ProductEditScreen = () => {
         navigate('/admin/productlist')
         
     }
-    else if (!loading && !_.isEmpty(productDetails))
-    {
-      console.log('keda')
-    setName(productDetails.name)
-    setCategory(productDetails.category)
-    setPrice(productDetails.price)
-    setCountInStock(productDetails.countInStock)
-    setImage(productDetails.image)
-    setDescription(productDetails.description)
-    }
-    
-    else if (typeof loading === "undefined" && pid) {
-        console.log('wasal pid')
-        dispatch(getProduct(pid))
-    }
-  
-  }, [dispatch, navigate,loading,pid,successCreate, successUpdate])
-   
-  
-
-  const uploadFileHandler = async (e) => {
-    const file = e.target.files[0]
-    const formData = new FormData()
-    formData.append('image', file)
-    setUploading(true)
-
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-
-      const { data } = await axios.post('/api/upload', formData, config)
-
-      setImage(data)
-      setUploading(false)
-    } catch (error) {
-      console.error(error)
-      setUploading(false)
-    }
-  }
-
-  const submitHandler = (e) => {
-    e.preventDefault()
-    console.log(pid)
-    if (!(_.isEmpty(pid)))
+    else if (submit && !uploading) 
+    {if (!(_.isEmpty(pid)))
     {
       dispatch(
         updateProduct({
@@ -124,7 +80,54 @@ const ProductEditScreen = () => {
       }))
     
     
+  }}
+    else if (!loading && !_.isEmpty(productDetails))
+    {
+      console.log('keda')
+    setName(productDetails.name)
+    setCategory(productDetails.category)
+    setPrice(productDetails.price)
+    setCountInStock(productDetails.countInStock)
+    setImage(productDetails.image)
+    setDescription(productDetails.description)
+    }
+    
+    else if (typeof loading === "undefined" && pid) {
+        console.log('wasal pid')
+        dispatch(getProduct(pid))
+    }
+  
+  }, [dispatch, navigate,loading,pid,successCreate, successUpdate,submit,uploading])
+   
+  
+
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData()
+    formData.append('image', file)
+    setUploading(true)
+
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+
+      const { data } = await axios.post('/api/upload', formData, config)
+
+      setImage(data)
+      setUploading(false)
+    } catch (error) {
+      console.error(error)
+      setUploading(false)
+    }
   }
+
+  const submitHandler = (e) => {
+    uploadFileHandler()
+    e.preventDefault()
+    setSubmit(true)
+    
   }
 
   return (
@@ -180,7 +183,7 @@ const ProductEditScreen = () => {
                 id='image-file'
                 label='Choose File'
                 custom
-                onChange={uploadFileHandler}
+                onChange={(e) => {setFile(e.target.files[0])}}
               ></Form.Control>
               {uploading && <Loader />}
             </Form.Group>

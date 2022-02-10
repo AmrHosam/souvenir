@@ -13,6 +13,7 @@ import ProductEditScreen from "./Screens/ProductEditScreen";
 import PlaceOrederScreen from "./Screens/PlaceOrederScreen";
 import { useSelector } from 'react-redux';
 import _ from "lodash";
+import OrderListScreen from "./Screens/OrderListScreen";
 function App() {
   const RequireAuthAdmin = ({ children }) => {
     const userLogin = useSelector(state => state.userLogin)
@@ -56,7 +57,7 @@ function App() {
           <Route path='/shipping' element={<ShippingScreen />}></Route>
           <Route path='/placeorder' element={<PlaceOrederScreen />}></Route>
           <Route path='/payment' element={<PaymentScreen />}></Route>
-
+          <Route path='/admin/orderlist' element={<RequireAuthAdmin ><OrderListScreen /></RequireAuthAdmin>} exact></Route>
           <Route path='/admin/productlist' element={<RequireAuthAdmin ><ProductListScreen /></RequireAuthAdmin>} exact></Route>
           <Route path='/admin/productlist/:pageNumber' element={<RequireAuthAdmin ><ProductListScreen /></RequireAuthAdmin>} exact></Route>
           <Route path='/admin/productlist/create' element={<RequireAuthAdmin ><ProductEditScreen /></RequireAuthAdmin>} exact></Route>
