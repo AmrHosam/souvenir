@@ -121,26 +121,29 @@ const MyNav = () => {
                 </Row>
               </Form>
             </Fade>
-            {user && user.isAdmin && (
-                <NavDropdown title='Admin' id='adminmenu'>
-                  <LinkContainer to='/admin/userlist'>
-                    <NavDropdown.Item>Users</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/productlist'>
-                    <NavDropdown.Item>Products</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/orderlist'>
-                    <NavDropdown.Item>Orders</NavDropdown.Item>
-                  </LinkContainer>
-                </NavDropdown>
-              )}
-              
-                {user ? (
-                  <Nav.Link onClick={submitLogout}>    <i  class="fas fa-sign-out-alt"></i> </Nav.Link>
-                ) : (
-                  <Nav.Link onClick={GoLogin}> <i class="fas fa-sign-in-alt"  ></i> </Nav.Link>
-                )}
-              
+            {user && user.isAdmin ? (
+              <NavDropdown title={user.name} id='username'>
+                <LinkContainer to='/admin/userlist'>
+                  <NavDropdown.Item>Users</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to='/admin/productlist'>
+                  <NavDropdown.Item>Products</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to='/admin/orderlist'>
+                  <NavDropdown.Item>Orders</NavDropdown.Item>
+                </LinkContainer>
+                <NavDropdown.Item onClick={submitLogout}>Logout</NavDropdown.Item>
+              </NavDropdown>
+            ) : user ? (
+              <NavDropdown title={user.name} id='username'>
+                <LinkContainer to='/orders'>
+                  <NavDropdown.Item>Orders</NavDropdown.Item>
+                </LinkContainer>
+                <NavDropdown.Item onClick={submitLogout}>Logout</NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <Nav.Link onClick={GoLogin}> <i class="fas fa-sign-in-alt"  ></i> </Nav.Link>
+            )}  
           </Nav>
         </Navbar.Collapse>
       </Container>
