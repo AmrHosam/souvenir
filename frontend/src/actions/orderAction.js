@@ -17,7 +17,16 @@ export const createOrder = (order) => async (dispatch, getState) => {
         dispatch({
             type: ORDER_CREATE_REQUEST,
         })
-        const { data } = await axios.post(`/orders`, order)
+
+        const {userLogin: { user }} = getState()
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+
+        const { data } = await axios.post(`/orders`, order, config)
 
         dispatch({
             type: ORDER_CREATE_SUCCESS,

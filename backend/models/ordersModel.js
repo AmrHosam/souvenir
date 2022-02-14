@@ -3,7 +3,8 @@ import Mongoose from 'mongoose'
 const orderSchema = Mongoose.Schema({
     user: {
         type: Mongoose.Schema.Types.ObjectId,
-        default: '620016904c565ac0084256a5',
+        unique: true,
+        required: true,
         ref: 'User',
     },
     orderItems: [
@@ -16,35 +17,29 @@ const orderSchema = Mongoose.Schema({
                 type: String,
 
             },
-            description: {
-                type: String,
-
-            },
-            category: {
-                type: String,
-
-            },
-            countInStock: {
-                type: Number,
-
-                default: 0,
-            },
             price: {
                 type: Number,
 
                 default: 0,
-            }
+            },
+            product: {
+                type: Mongoose.Schema.Types.ObjectId,
+                required: true,
+                ref: 'Product'
+            },
+            quantity: { type: Number, required: true},
         }
     ],
 
     shippingAddress: {
-        address: { type: String },
-        city: { type: String },
-        phone: { type: Number }
+        address: { type: String, required: true, },
+        city: { type: String, required: true, },
+        phone: { type: Number, required: true, }
     },
 
     paymentMethod: {
         type: String,
+        required: true,
     },
 
     paymentResult: {
@@ -57,14 +52,14 @@ const orderSchema = Mongoose.Schema({
 
     shippingPrice: {
         type: Number,
-
+        required: true,
         default: 0.0,
 
     },
 
     totalPrice: {
         type: Number,
-
+        required: true,
         default: 0.0,
 
     },

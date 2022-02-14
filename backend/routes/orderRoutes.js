@@ -5,7 +5,7 @@ import {
 import { admin, protect } from "../middleware/authMiddleware.js";
 const orderRouter = express.Router();
 
-orderRouter.post("/", addOrderItems);
+orderRouter.post("/", protect, addOrderItems);
 
 orderRouter.get("/", protect, getUserOrders)
 
