@@ -26,9 +26,9 @@ const PlaceOrederScreen = () => {
   cart.totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
-  )
+  ).toFixed(2)
   cart.shippingPrice = 50
-  cart.totalCost = cart.totalPrice + cart.shippingPrice
+  cart.totalCost = (Number(cart.totalPrice) + cart.shippingPrice).toFixed(2)
   const placeOrederHandler = () => {
     dispatch(createOrder({
       orderItems: cart.cartItems,
@@ -81,7 +81,7 @@ const PlaceOrederScreen = () => {
                     <Link to={`/shop/${item.product}`}>{item.name}</Link>
                   </Col>
                   <Col md={4}>
-                    {item.quantity} x {item.price} = {item.quantity * item.price} EGP
+                    {item.quantity} x {item.price} = {(item.quantity * item.price).toFixed(2)} EGP
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -99,19 +99,19 @@ const PlaceOrederScreen = () => {
             <ListGroup.Item>
               <Row>
                 <Col>Items</Col>
-                <Col>{cart.totalPrice}  LE </Col>
+                <Col>{cart.totalPrice}  EGP </Col>
               </Row>
             </ListGroup.Item>
             <ListGroup.Item>
               <Row>
                 <Col>shipping</Col>
-                <Col>{cart.shippingPrice}  LE </Col>
+                <Col>{cart.shippingPrice}  EGP </Col>
               </Row>
             </ListGroup.Item>
             <ListGroup.Item>
               <Row>
                 <Col>Total</Col>
-                <Col> {cart.totalCost}  LE </Col>
+                <Col> {cart.totalCost}  EGP </Col>
               </Row>
             </ListGroup.Item>
 
