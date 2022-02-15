@@ -49,7 +49,7 @@ const UserOrdersScreen = () => {
                                   <Image src={item.image} alt={item.name} fluid rounded></Image>
                                 </Col>
                                 <Col md={10} className='py-2'>
-                                  <Link to={`/shop/${item._id}`}>{item.name}</Link>
+                                  <Link to={`/shop/${item.product}`}>{item.name}</Link>
                                 </Col>
                             </Row>
                             </tr>
@@ -58,7 +58,7 @@ const UserOrdersScreen = () => {
                   <td className="align-middle">{Number(order.totalPrice).toFixed(2)} EGP</td>
                   <td className="align-middle">{order.createdAt.substring(0,10)}</td>
                   <td className="align-middle">{order.paymentMethod}</td>
-                  <td className="align-middle">{false?(<i className='fas fa-check' style={{color:'green'}}></i>):(<i className='fas fa-times' style={{color:'red'}}></i>)}</td>
+                  <td className="align-middle">{order.isDelivered?(<i className='fas fa-check' style={{color:'green'}}></i>):(<i className='fas fa-times' style={{color:'red'}}></i>)}</td>
                 </tr>
               ))}
             </tbody>
