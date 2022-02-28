@@ -20,7 +20,7 @@ const addItem = asyncHandler(async(req, res) => {
 })
 
 const deleteItem = asyncHandler(async(req, res) => {
-    const { userId } = req.body
+    const userId = req.user._id.toString()
     const currentUser = await User.findById(userId)
     currentUser.cart = currentUser.cart.filter((item) => item.product.toString() !== req.params.id)
     const savedUser = await currentUser.save()

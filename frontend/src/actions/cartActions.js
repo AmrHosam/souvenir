@@ -115,7 +115,7 @@ export const removeItem = (id) => (dispatch, getState) => {
     localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
 
-export const removeItemDB = (userId, itemId) => async(dispatch) => {
+export const removeItemDB = (userId, itemId) => async(dispatch, getState) => {
     try {
         dispatch({
             type: CART_REMOVE_ITEM_DB_REQUEST
@@ -124,7 +124,14 @@ export const removeItemDB = (userId, itemId) => async(dispatch) => {
             type: CART_REMOVE_ITEM,
             payload: itemId
         })
-        const { data } = await axios.post(`/cart/delete/${itemId}`, {userId})
+        const {userLogin: { user }} = getState()
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+        const { data } = await axios.delete(`/cart/${itemId}`, config)
         dispatch({
             type: CART_REMOVE_ITEM_DB_SUCCESS,
             payload: data,
