@@ -4,7 +4,7 @@ import { protect } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 
-router.route('/').post(getCartItems)
+router.route('/').get(protect, getCartItems)
 router.route('/:id').post(addItem)
 router.route('/:id').delete(protect, deleteItem)
 router.route('/insert/:id').post(insertLocalStorage)

@@ -76,11 +76,20 @@ export const addItemDB = (userId, itemId, quantity) => async(dispatch) => {
 }
 
 
-export const getCartItems = (userId) => async(dispatch, getState) => {
+export const getCartItems = () => async(dispatch, getState) => {
     try {
         dispatch({type: CART_ITEMS_LIST_REQUEST})
         const cartList = []
-        const { data } = await axios.post('/cart', { userId })
+
+        const {userLogin: { user }} = getState()
+        const config = {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+
+        const { data } = await axios.get('/cart', config)
         for (const item of data){
             const product = await axios.get(`/shop/${item.product}`)
             cartList.push({

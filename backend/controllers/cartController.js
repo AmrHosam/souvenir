@@ -29,14 +29,11 @@ const deleteItem = asyncHandler(async(req, res) => {
 })
 
 const getCartItems = asyncHandler(async(req, res) => {
-    const { userId } = req.body
-    console.log(req.body)
+    const userId = req.user._id.toString()
     const currentUser = await User.findById(userId)
-    console.log(currentUser)
     if(currentUser){
         const cartItems = currentUser.cart
         res.json(cartItems)
-        console.log(cartItems)
     }
 })
 

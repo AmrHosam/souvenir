@@ -15,13 +15,13 @@ const CartScreen = () => {
     const dispatch = useDispatch()
 
     const { cart, userLogin } = useSelector(state => state)
-    const { cartItems, loading, addLoading, error, newItem } = cart
+    const { cartItems, loading, addLoading, error } = cart
     const loggedIn = userLogin.user? true : false
     const userId = userLogin.user? userLogin.user._id : ''
     useEffect(() => {
         if(loggedIn){
             if(!addLoading)
-                dispatch(getCartItems(userId))
+                dispatch(getCartItems())
         } else {
             dispatch(initializeCart())
         }
